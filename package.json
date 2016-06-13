@@ -1,0 +1,30 @@
+{
+  "name": "d3-punchcard",
+  "version": "1.0.0",
+  "description": "Punchcard using D3.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/syaning/d3-punchcard.git"
+  },
+  "keywords": [
+    "d3",
+    "punchcard"
+  ],
+  "author": {
+    "name": "Alex Sun",
+    "email": "syaningv@gmail.com",
+    "url": "syaning.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/syaning/d3-punchcard/issues"
+  },
+  "homepage": "https://github.com/syaning/d3-punchcard#readme",
+  "dependencies": {
+    "d3": "^3.5.17"
+  }
+}
