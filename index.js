@@ -8,14 +8,15 @@ const defaults = {
   width: 600,
   height: 400,
   margin: {
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0
+    top: 20,
+    right: 20,
+    bottom: 40,
+    left: 100
   }
 }
 
-module.exports = Punchcard
+exports = module.exports = Punchcard
+exports.punchcard = Punchcard
 
 /**
  * Punchcard chart.
@@ -37,6 +38,14 @@ function Punchcard(options) {
  */
 var proto = Punchcard.prototype
 
+var xTicks = [
+  '12a', '1a', '2a', '3a', '4a', '5a', '6a', '7a',
+  '8a', '9a', '10a', '11a', '12p', '1p', '2p', '3p',
+  '4p', '5p', '6p', '7p', '8p', '9p', '10p', '11p'
+]
+
+var yTicks = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
 /**
  * Initialize the chart.
  *
@@ -55,41 +64,51 @@ proto._init = function() {
 
   this.unitWidth = innerWidth / 24
   this.unitHeight = innerHeight / 7
-  this.unitSize = Math.max(this.unitWidth, this.unitHeight)
+  this.unitSize = Math.min(this.unitWidth, this.unitHeight)
 
   this.chart = d3.select(this.target)
     .append('svg')
     .attr('width', width)
     .attr('height', height)
     .append('g')
-    .attr('transform', `trasnlate(${margin.left}, ${margin.top})`)
+    .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
   this.x = d3.scale.linear()
     .domain([0, 23])
-    .range([0, innerWidth])
+    .range([this.unitWidth / 2, innerWidth - this.unitWidth / 2])
 
   this.y = d3.scale.linear()
     .domain([0, 6])
-    .range([0, innerHeight])
+    .range([this.unitHeight / 2, innerHeight - this.unitHeight / 2])
 
   this.xAxis = d3.svg.axis()
     .orient('bottom')
     .scale(this.x)
     .ticks(24)
+    .tickFormat((d, i) => xTicks[i])
 
   this.yAxis = d3.svg.axis()
     .orient('left')
     .scale(this.y)
     .ticks(7)
+    .tickFormat((d, i) => yTicks[i])
 
   this.chart.append('g')
     .attr('class', 'x axis')
     .attr('transform', `translate(0, ${innerHeight})`)
+    .call(this.xAxis)
 
   this.chart.append('g')
     .attr('class', 'y axis')
+    .call(this.yAxis)
 }
 
+/**
+ * Render punchcard.
+ *
+ * @param  {Array} data
+ * @public
+ */
 proto.render = function(data) {
   if (!data || !data.length) {
     this.data = []
@@ -97,7 +116,33 @@ proto.render = function(data) {
     return
   }
 
+  var maxVal = d3.max(data, d => d[2])
+
   this.data = data
+
+  this._renderAxis()
+
+  this.r = d3.scale.sqrt()
+    .domain([0, maxVal])
+    .range([0, this.unitSize / 2])
+
+  this.chart.selectAll('circle')
+    .data(data)
+    .enter()
+    .append('circle')
+    .attr('cx', d => this.x(d[1]))
+    .attr('cy', d => this.y(d[0]))
+    .attr('r', d => this.r(d[2]))
+    .style('fill', '#444')
+}
+
+/**
+ * Render axis.
+ *
+ * @private
+ */
+proto._renderAxis = function() {
+
 }
 
 proto.clear = function() {
