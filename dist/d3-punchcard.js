@@ -71,7 +71,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    bottom: 40,
 	    left: 100
 	  },
-	  color: '#444'
+	  color: '#444',
+	  xticks: ['12a', '1a', '2a', '3a', '4a', '5a', '6a', '7a', '8a', '9a', '10a', '11a', '12p', '1p', '2p', '3p', '4p', '5p', '6p', '7p', '8p', '9p', '10p', '11p'],
+	  yticks: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 	};
 
 	exports = module.exports = Punchcard;
@@ -97,16 +99,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	var proto = Punchcard.prototype;
 
-	var xTicks = ['12a', '1a', '2a', '3a', '4a', '5a', '6a', '7a', '8a', '9a', '10a', '11a', '12p', '1p', '2p', '3p', '4p', '5p', '6p', '7p', '8p', '9p', '10p', '11p'];
-
-	var yTicks = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
 	/**
 	 * Initialize the chart.
 	 *
 	 * @private
 	 */
 	proto._init = function () {
+	  var _this = this;
+
 	  var width = this.width;
 	  var height = this.height;
 	  var margin = this.margin;
@@ -125,11 +125,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.y = d3.scale.linear().domain([0, 6]).range([unitHeight / 2, innerHeight - unitHeight / 2]);
 
 	  this.xAxis = d3.svg.axis().orient('bottom').scale(this.x).ticks(24).tickFormat(function (d, i) {
-	    return xTicks[i];
+	    return _this.xticks[i];
 	  });
 
 	  this.yAxis = d3.svg.axis().orient('left').scale(this.y).ticks(7).tickFormat(function (d, i) {
-	    return yTicks[i];
+	    return _this.yticks[i];
 	  });
 
 	  this._renderAxis();
@@ -163,7 +163,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 */
 	proto._renderCard = function () {
-	  var _this = this;
+	  var _this2 = this;
 
 	  var data = this.data;
 	  var maxVal = d3.max(data, function (d) {
@@ -177,12 +177,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var updates = [circles, circles.enter().append('circle')];
 	  updates.forEach(function (group) {
 	    group.attr('cx', function (d) {
-	      return _this.x(d[1]);
+	      return _this2.x(d[1]);
 	    }).attr('cy', function (d) {
-	      return _this.y(d[0]);
+	      return _this2.y(d[0]);
 	    }).attr('r', function (d) {
-	      return _this.r(d[2]);
-	    }).style('fill', _this.color);
+	      return _this2.r(d[2]);
+	    }).style('fill', _this2.color);
 	  });
 
 	  circles.exit().remove();

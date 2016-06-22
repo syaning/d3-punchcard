@@ -13,7 +13,16 @@ const defaults = {
     bottom: 40,
     left: 100
   },
-  color: '#444'
+  color: '#444',
+  xticks: [
+    '12a', '1a', '2a', '3a', '4a', '5a', '6a', '7a',
+    '8a', '9a', '10a', '11a', '12p', '1p', '2p', '3p',
+    '4p', '5p', '6p', '7p', '8p', '9p', '10p', '11p'
+  ],
+  yticks: [
+    'Sunday', 'Monday', 'Tuesday', 'Wednesday',
+    'Thursday', 'Friday', 'Saturday'
+  ]
 }
 
 exports = module.exports = Punchcard
@@ -38,17 +47,6 @@ function Punchcard(options) {
  * Punchcard prototype.
  */
 var proto = Punchcard.prototype
-
-var xTicks = [
-  '12a', '1a', '2a', '3a', '4a', '5a', '6a', '7a',
-  '8a', '9a', '10a', '11a', '12p', '1p', '2p', '3p',
-  '4p', '5p', '6p', '7p', '8p', '9p', '10p', '11p'
-]
-
-var yTicks = [
-  'Sunday', 'Monday', 'Tuesday', 'Wednesday',
-  'Thursday', 'Friday', 'Saturday'
-]
 
 /**
  * Initialize the chart.
@@ -86,13 +84,13 @@ proto._init = function() {
     .orient('bottom')
     .scale(this.x)
     .ticks(24)
-    .tickFormat((d, i) => xTicks[i])
+    .tickFormat((d, i) => this.xticks[i])
 
   this.yAxis = d3.svg.axis()
     .orient('left')
     .scale(this.y)
     .ticks(7)
-    .tickFormat((d, i) => yTicks[i])
+    .tickFormat((d, i) => this.yticks[i])
 
   this._renderAxis()
 }
