@@ -131,6 +131,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.yAxis = d3.svg.axis().orient('left').scale(this.y).ticks(7).tickFormat(function (d, i) {
 	    return yTicks[i];
 	  });
+
+	  this._renderAxis();
 	};
 
 	/**
@@ -140,15 +142,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @public
 	 */
 	proto.render = function (data) {
-	  if (!data || !data.length) {
-	    this.data = [];
-	    this.clear();
-	    return;
-	  }
-
-	  this.data = data;
-
-	  this._renderAxis();
+	  this.data = data || [];
 	  this._renderCard();
 	};
 
@@ -178,16 +172,25 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  this.r = d3.scale.sqrt().domain([0, maxVal]).range([0, this.unitSize / 2]);
 
-	  this.chart.selectAll('circle').data(data).enter().append('circle').attr('cx', function (d) {
-	    return _this.x(d[1]);
-	  }).attr('cy', function (d) {
-	    return _this.y(d[0]);
-	  }).attr('r', function (d) {
-	    return _this.r(d[2]);
-	  }).style('fill', this.color);
+	  var circles = this.chart.selectAll('circle').data(data);
+
+	  var updates = [circles, circles.enter().append('circle')];
+	  updates.forEach(function (group) {
+	    group.attr('cx', function (d) {
+	      return _this.x(d[1]);
+	    }).attr('cy', function (d) {
+	      return _this.y(d[0]);
+	    }).attr('r', function (d) {
+	      return _this.r(d[2]);
+	    }).style('fill', _this.color);
+	  });
+
+	  circles.exit().remove();
 	};
 
-	proto.clear = function () {};
+	proto.clear = function () {
+	  this.chart.selectAll('*').remove();
+	};
 
 /***/ },
 /* 1 */

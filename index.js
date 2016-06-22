@@ -93,6 +93,8 @@ proto._init = function() {
     .scale(this.y)
     .ticks(7)
     .tickFormat((d, i) => yTicks[i])
+
+  this._renderAxis()
 }
 
 /**
@@ -102,15 +104,7 @@ proto._init = function() {
  * @public
  */
 proto.render = function(data) {
-  if (!data || !data.length) {
-    this.data = []
-    this.clear()
-    return
-  }
-
-  this.data = data
-
-  this._renderAxis()
+  this.data = data || []
   this._renderCard()
 }
 
@@ -143,16 +137,20 @@ proto._renderCard = function() {
     .domain([0, maxVal])
     .range([0, this.unitSize / 2])
 
-  this.chart.selectAll('circle')
-    .data(data)
-    .enter()
-    .append('circle')
-    .attr('cx', d => this.x(d[1]))
-    .attr('cy', d => this.y(d[0]))
-    .attr('r', d => this.r(d[2]))
-    .style('fill', this.color)
+  var circles = this.chart.selectAll('circle').data(data)
+
+  var updates = [circles, circles.enter().append('circle')]
+  updates.forEach(group => {
+    group
+      .attr('cx', d => this.x(d[1]))
+      .attr('cy', d => this.y(d[0]))
+      .attr('r', d => this.r(d[2]))
+      .style('fill', this.color)
+  })
+
+  circles.exit().remove()
 }
 
 proto.clear = function() {
-
+  this.chart.selectAll('*').remove()
 }
