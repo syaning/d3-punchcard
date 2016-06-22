@@ -2,6 +2,8 @@
 
 Punchcard with [D3.js](https://d3js.org/).
 
+![](./screenshot.png)
+
 ### Install
 
 ```sh
