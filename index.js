@@ -158,6 +158,11 @@ proto._renderCard = function() {
   circles.exit().remove()
 }
 
+/**
+ * Clear chart.
+ *
+ * @public
+ */
 proto.clear = function() {
   this.chart.selectAll('*').remove()
 }

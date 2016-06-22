@@ -192,6 +192,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  circles.exit().remove();
 	};
 
+	/**
+	 * Clear chart.
+	 *
+	 * @public
+	 */
 	proto.clear = function () {
 	  this.chart.selectAll('*').remove();
 	};
