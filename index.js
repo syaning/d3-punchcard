@@ -102,7 +102,16 @@ proto._init = function() {
  * @public
  */
 proto.render = function(data) {
-  this.data = data || []
+  data = (data || []).filter(d => {
+    return Array.isArray(d) &&
+      d.length === 3 &&
+      d[0] >= 0 &&
+      d[0] <= 6 &&
+      d[1] >= 0 &&
+      d[1] <= 23
+  })
+
+  this.data = data
   this._renderCard()
 }
 
