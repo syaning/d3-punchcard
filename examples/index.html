@@ -3,11 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
+  <style>
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #333;
+      stroke-width: 1px;
+      shape-rendering: crispEdges;
+    }
+  </style>
 </head>
 <body>
   <div id="example"></div>
   <script src="../node_modules/d3/d3.min.js"></script>
-  <script src="../dist/index.js"></script>
+  <script src="../dist/d3-punchcard.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

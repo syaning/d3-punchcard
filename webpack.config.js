@@ -1,6 +1,9 @@
+const webpack = require('webpack')
+
 module.exports = {
   entry: {
-    index: './index.js'
+    'd3-punchcard': './index.js',
+    'd3-punchcard.min': './index.js'
   },
   output: {
     path: __dirname + '/dist',
@@ -20,5 +23,11 @@ module.exports = {
       }
     }]
   },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      include: /\.min\.js$/,
+      minimize: true
+    })
+  ],
   watch: true
 }
