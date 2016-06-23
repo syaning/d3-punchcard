@@ -1,6 +1,6 @@
 {
   "name": "d3-punchcard",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Punchcard using D3.js",
   "main": "index.js",
   "scripts": {
