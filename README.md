@@ -19,6 +19,18 @@ $ npm install d3-punchcard
   <meta charset="UTF-8">
   <title>Document</title>
   <script src="d3-punchcard.min.js"></script>
+  <style>
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #333;
+      stroke-width: 1px;
+      shape-rendering: crispEdges;
+    }
+    .axis text {
+      font-size: 0.875em;
+    }
+  </style>
 </head>
 <body>
   <div id="example"></div>
