@@ -25,8 +25,7 @@ const defaults = {
   ]
 }
 
-exports = module.exports = Punchcard
-exports.punchcard = Punchcard
+module.exports = Punchcard
 
 /**
  * Punchcard chart.

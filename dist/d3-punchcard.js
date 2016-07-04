@@ -3,10 +3,10 @@
 		module.exports = factory(require("d3"));
 	else if(typeof define === 'function' && define.amd)
 		define(["d3"], factory);
-	else {
-		var a = typeof exports === 'object' ? factory(require("d3")) : factory(root["d3"]);
-		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
-	}
+	else if(typeof exports === 'object')
+		exports["punchcard"] = factory(require("d3"));
+	else
+		root["punchcard"] = factory(root["d3"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_1__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -76,8 +76,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  yticks: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 	};
 
-	exports = module.exports = Punchcard;
-	exports.punchcard = Punchcard;
+	// exports = module.exports = Punchcard
+	// exports.punchcard = Punchcard
+
+	module.exports = Punchcard;
 
 	/**
 	 * Punchcard chart.
